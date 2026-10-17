@@ -1,5 +1,7 @@
 Current edition: CHIBI CARTOON. Generated with built-in ImageGen.
 
+Cheek redness revision: dist/assets/vy-combat-red-cheeks.png, built-in ImageGen edit of the previous combat atlas. Keep all poses and layout; normal column unchanged; injured columns gain progressively larger saturated pink-red/coral cheek patches with swelling, clearly readable at game size. No blood/bruising. Added a brief local cheek-red pulse on each landed enemy hit. Prompt preserves clothing, hair, transparent background and guard/punch poses.
+
 Combat repair: dist/assets/vy-combat-cheeks.png. Built-in ImageGen using vy-chibi.png as the style reference. Prompt: transparent 4x2 chibi atlas, top row four right-facing guard poses with normal/mild/medium/maximum comic cheek puffiness; bottom row corresponding punch poses; same ivory top and dark leggings, no blood or injury detail, consistent scale and margins.
 
 Combat rules: normal attacks deal 10 damage at the contact frame; attacks landing in the opening deal 25. Boss strikes cost Vy 25 HP when neither guarded nor dodged. Four unblocked strikes open a rescue story with family/cake/music; retry skips the road and restarts only the boss. Rendered normal, contact, swollen and rescue states are in ignored .qa/renders. Verify with node verify-combat.cjs.

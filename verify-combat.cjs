@@ -16,5 +16,5 @@ run('retryBoss()');tick();for(let i=0;i<4;i++){run('duelPhase="windup";combatTim
 run("$('replay').onclick()");assert.equal(run('playerHP'),100);assert.equal(run('cheekLevel'),0);assert.equal(run('combatResult'),'fight');assert.equal(run('mode'),0);
 for(let i=0;i<5;i++)run('invincible=0;registerRoadHit()');assert.equal(run('endingKind'),'late');for(let i=0;i<950&&run('playing');i++)tick();assert.equal(el('finish').hidden,false);assert.equal(run('combatResult'),'fight');
 run('retryBoss()');tick();run('duelPhase="windup";combatTimer=5');el('action').onclick();run("$('pause').onclick()");tick(10);assert.equal(run('duelHP'),100);run("$('pause').onclick()");tick(6);assert.equal(run('duelHP'),90);
-assert.ok(fs.statSync(__dirname+'/dist/assets/vy-combat-cheeks.png').size>1000);
+assert.ok(fs.statSync(__dirname+'/dist/assets/vy-combat-red-cheeks.png').size>1000);
 console.log('PASS: actual button normal/counter damage, delayed one-hit impact, guard/dodge, 4-hit KO, progressive cheeks, boss-only retry, normal-phase victory, rescue ending, pause and full replay reset');
