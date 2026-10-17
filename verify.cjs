@@ -1,12 +1,14 @@
 const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
 const html=fs.readFileSync(__dirname+'/dist/index.html','utf8');for(const id of ['left','right','threat','pauseOverlay'])assert.ok(html.includes(`id="${id}"`));assert.ok(html.includes('src="runner.js"'));
 const elements=new Map();const context=new Proxy({}, {get:(target,key)=>key in target?target[key]:()=>{}});
-function element(id){if(!elements.has(id))elements.set(id,{hidden:true,style:{},textContent:'',clientWidth:390,clientHeight:360,getContext:()=>context,getBoundingClientRect:()=>({width:390,height:360}),addEventListener(){},scrollIntoView(){},replaceChildren(){}});return elements.get(id)}
+function element(id){if(!elements.has(id))elements.set(id,{hidden:true,style:{},textContent:'',clientWidth:390,clientHeight:360,parentElement:{append(){}},prepend(){},getContext:()=>context,getBoundingClientRect:()=>({width:390,height:360}),addEventListener(){},scrollIntoView(){},replaceChildren(){}});return elements.get(id)}
 context.createLinearGradient=()=>({addColorStop(){}});
 class MockAudio{constructor(){this.ended=false;this.plays=0}play(){this.plays++;return Promise.resolve()}pause(){}}
 const sandbox={fetch:()=>Promise.resolve({arrayBuffer:()=>Promise.resolve(new ArrayBuffer(0))}),Audio:MockAudio,document:{getElementById:element,body:{append(){}},createElement:()=>({style:{},animate:()=>({}),remove(){}})},window:{scrollTo(){}},location:{search:''},URLSearchParams,devicePixelRatio:1,addEventListener(){},requestAnimationFrame:()=>1,cancelAnimationFrame(){},console,Math};
 vm.createContext(sandbox);vm.runInContext(fs.readFileSync(__dirname+'/dist/runner.js','utf8'),sandbox);
 vm.runInContext(fs.readFileSync(__dirname+'/dist/boss.js','utf8'),sandbox);
+vm.runInContext('globalThis.Image=class {};document.createElement=()=>({style:{},hidden:true,setAttribute(){},animate:()=>({}),remove(){}})',sandbox);
+vm.runInContext(fs.readFileSync(__dirname+'/dist/personalize.js','utf8'),sandbox);
 const run=s=>vm.runInContext(s,sandbox);
 run('sound=false;start()');assert.equal(run('playing'),true);
 run('move(-1);move(-1);move(-1)');assert.equal(run('lane'),0);

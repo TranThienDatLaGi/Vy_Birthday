@@ -1,0 +1,1 @@
+const fs=require('fs'),p='dist/index.html';let s=fs.readFileSync(p,'utf8');if(!s.includes('src="personalize.js"'))s=s.replace('<script src="boss.js"></script>','<script src="boss.js"></script><script src="personalize.js"></script>');if(!s.includes('href="personalize.css"'))s=s.replace('</head>','<link rel="stylesheet" href="personalize.css"></head>');fs.writeFileSync(p,s);
