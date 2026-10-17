@@ -1,0 +1,1 @@
+const fs=require('fs'),p='dist/index.html';let s=fs.readFileSync(p,'utf8');if(!s.includes('src="district-score.js"'))s=s.replace('<script src="world-mobile.js"></script>','<script src="world-mobile.js"></script><script src="district-score.js"></script>');fs.writeFileSync(p,s);
