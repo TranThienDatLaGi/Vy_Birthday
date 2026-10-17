@@ -1,5 +1,13 @@
 Current edition: CHIBI CARTOON. Generated with built-in ImageGen.
 
+Living-world update: dist/assets/saigon-weather.png (three equal panels: sunny day, dark rain, flooded street); dist/assets/vy-rowing-family.png (four seated rowing phases; tired seated Vy; cake-carrying mother; singing father; singing friends); dist/assets/late-office.png (empty cartoon Saigon office at night, desk and right-hand doorway); dist/assets/street-traffic.png (parcel van, loaded handcart, road barrier, scooter rider).
+
+Prompts: consistent rounded chibi cel shading, no photography. Weather panels share the same street and camera. Rowing is seated with paddle positions, not a running pose. Family/cake assets have open singing expressions. Traffic props are rear-view sprites with transparent background.
+
+Game rule: fifth road/water collision starts an alternate noninteractive ending: overtime, meeting until 23:45, family arriving with cake, animated singing poses and synthesized Happy Birthday melody. This uses fictional cartoon family members, not portraits or recordings of Vy's actual relatives. The original boss/epilogue path remains available below five collisions.
+
+Verification: node verify-living.cjs covers both branches, collision grace, pause and replay. node render-scenes.cjs renders Canvas snapshots into ignored .qa/renders for image inspection; it is not a browser/device test.
+
 Current assets: dist/assets/vy-chibi.png and dist/assets/saigon-cartoon.png. Previous art is retained but no longer used by gameplay.
 
 Current sprite prompt: exactly 4x2 transparent atlas, cute animated chibi heroine with oversized expressive head, tiny rounded body, long wavy black hair, cream sports top, charcoal leggings and ivory shoes. Eight poses: two back-view runs, side guard, punch, block, kneel, hopeful reach, birthday dress. Consistent proportions; no realistic human rendering, no text.

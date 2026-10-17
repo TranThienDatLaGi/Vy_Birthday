@@ -1,0 +1,1 @@
+const fs=require('fs'),p='dist/index.html';let s=fs.readFileSync(p,'utf8');if(!s.includes('src="living-world.js"'))s=s.replace('<script src="cinema.js"></script>','<script src="cinema.js"></script><script src="living-world.js"></script>');s=s.replace('Không cần giải trình</p>','Né vật cản · 5 va chạm sẽ mở kết thúc khác</p>');fs.writeFileSync(p,s);
