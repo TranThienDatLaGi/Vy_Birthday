@@ -2,8 +2,8 @@
 const facadeSheet=new Image(),pursuerSheet=new Image();let facadesReady=false,pursuersReady=false;
 facadeSheet.onload=()=>facadesReady=true;facadeSheet.src='assets/saigon-facades.png';pursuerSheet.onload=()=>pursuersReady=true;pursuerSheet.src='assets/chase-team.png';
 let chaseLastHit=-100,chaseCount=0,chaseBuffer,chaseSource;
-const chaseAudio=new Audio('assets/chay-di.mp3');chaseAudio.preload='auto';
-const chaseBytes=fetch('assets/chay-di.mp3').then(r=>r.arrayBuffer()).catch(()=>null);
+const chaseAudio=new Audio('assets/collision-user.mp3');chaseAudio.preload='auto';
+const chaseBytes=fetch('assets/collision-user.mp3').then(r=>r.arrayBuffer()).catch(()=>null);
 const worldStart=start,worldFinish=finish,worldRoadHit=registerRoadHit,worldResize=resize,worldRetry=retryBoss,oldProject=project;
 function stopChase(){if(chaseSource){try{chaseSource.stop()}catch{}chaseSource=null}chaseAudio.pause()}
 function prepareChase(){if(!audio||chaseBuffer)return;chaseBytes.then(b=>b&&audio.decodeAudioData(b.slice(0))).then(b=>{chaseBuffer=b}).catch(()=>{})}
