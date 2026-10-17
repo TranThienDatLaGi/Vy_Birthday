@@ -17,5 +17,5 @@ const hp=run('duelHP');run('act();move(1)');assert.equal(run('duelHP'),hp);
 run("$('pause').onclick()");const before=run('epilogue');for(let i=0;i<10;i++)tick();assert.equal(run('epilogue'),before);run("$('pause').onclick()");
 let sawFall=false,sawLight=false;for(let i=0;i<1000&&run('playing');i++){tick();sawFall ||=run('epilogue')>4;sawLight ||=run('epilogue')>8}assert.ok(sawFall&&sawLight);assert.equal(run('distance'),1710);assert.equal(el('finish').hidden,false);
 run("$('replay').onclick()");assert.equal(run('epilogue'),-1);assert.equal(run('duelHP'),100);assert.equal(el('controls').hidden,false);
-const html=fs.readFileSync(__dirname+'/dist/index.html','utf8');assert.ok(html.includes('src="cinema.js"'));for(const file of ['vy-sprites.png','saigon-street.png'])assert.ok(fs.statSync(`${__dirname}/dist/assets/${file}`).size>1000);
+const html=fs.readFileSync(__dirname+'/dist/index.html','utf8');assert.ok(html.includes('src="cinema.js"'));for(const file of ['vy-chibi.png','saigon-cartoon.png'])assert.ok(fs.statSync(`${__dirname}/dist/assets/${file}`).size>1000);
 console.log('PASS: rain/boat, separate duel, shield, dodge/block, counters, victory, noninteractive fall/light epilogue, pause, replay, sprite/street assets');

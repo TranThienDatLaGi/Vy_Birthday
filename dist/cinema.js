@@ -1,6 +1,6 @@
 // Sprite art, Saigon environment, separate side-view duel and noninteractive epilogue.
 const characterSheet=new Image(),saigonStreet=new Image();let sheetReady=false,streetReady=false;
-characterSheet.onload=()=>{sheetReady=true};characterSheet.src='assets/vy-sprites.png';saigonStreet.onload=()=>streetReady=true;saigonStreet.src='assets/saigon-street.png';
+characterSheet.onload=()=>{sheetReady=true};characterSheet.src='assets/vy-chibi.png';saigonStreet.onload=()=>streetReady=true;saigonStreet.src='assets/saigon-cartoon.png';
 let duelStarted=false,duelPhase='intro',duelTimer=2.2,duelHP=100,duelClock=0,duelCooldown=0,guardUntil=0,dodgeUntil=0,punchUntil=0,impactUntil=0,epilogue=-1,duelHit=false,guardCount=0;
 const previousStart=start,previousMove=move,previousAct=act,fallbackDraw=runnerDraw,fallbackCharacter=runner;
 start=function(){duelStarted=false;duelPhase='intro';duelTimer=2.2;duelHP=100;duelClock=duelCooldown=guardUntil=dodgeUntil=punchUntil=impactUntil=guardCount=0;epilogue=-1;duelHit=false;$('action').disabled=false;$('left').textContent='←';$('right').textContent='→';$('controls').hidden=false;previousStart()};
