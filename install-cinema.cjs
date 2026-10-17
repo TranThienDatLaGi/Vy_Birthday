@@ -1,0 +1,1 @@
+const fs=require('fs'),p='dist/index.html';let s=fs.readFileSync(p,'utf8');if(!s.includes('src="cinema.js"'))s=s.replace('<script src="personalize.js"></script>','<script src="personalize.js"></script><script src="cinema.js"></script>');s=s.replace('<div class="controls">','<div class="controls" id="controls">');fs.writeFileSync(p,s);
