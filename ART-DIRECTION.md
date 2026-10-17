@@ -1,5 +1,9 @@
 Current edition: CHIBI CARTOON. Generated with built-in ImageGen.
 
+Combat repair: dist/assets/vy-combat-cheeks.png. Built-in ImageGen using vy-chibi.png as the style reference. Prompt: transparent 4x2 chibi atlas, top row four right-facing guard poses with normal/mild/medium/maximum comic cheek puffiness; bottom row corresponding punch poses; same ivory top and dark leggings, no blood or injury detail, consistent scale and margins.
+
+Combat rules: normal attacks deal 10 damage at the contact frame; attacks landing in the opening deal 25. Boss strikes cost Vy 25 HP when neither guarded nor dodged. Four unblocked strikes open a rescue story with family/cake/music; retry skips the road and restarts only the boss. Rendered normal, contact, swollen and rescue states are in ignored .qa/renders. Verify with node verify-combat.cjs.
+
 Living-world update: dist/assets/saigon-weather.png (three equal panels: sunny day, dark rain, flooded street); dist/assets/vy-rowing-family.png (four seated rowing phases; tired seated Vy; cake-carrying mother; singing father; singing friends); dist/assets/late-office.png (empty cartoon Saigon office at night, desk and right-hand doorway); dist/assets/street-traffic.png (parcel van, loaded handcart, road barrier, scooter rider).
 
 Prompts: consistent rounded chibi cel shading, no photography. Weather panels share the same street and camera. Rowing is seated with paddle positions, not a running pose. Family/cake assets have open singing expressions. Traffic props are rear-view sprites with transparent background.

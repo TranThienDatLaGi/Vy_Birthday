@@ -1,0 +1,1 @@
+const fs=require('fs'),p='dist/index.html';let s=fs.readFileSync(p,'utf8');if(!s.includes('src="combat-fix.js"'))s=s.replace('<script src="living-world.js"></script>','<script src="living-world.js"></script><script src="combat-fix.js"></script>');fs.writeFileSync(p,s);
