@@ -1,0 +1,1 @@
+const fs=require('fs'),p='dist/index.html';let s=fs.readFileSync(p,'utf8');if(!s.includes('src="boss.js"'))s=s.replace('<script src="runner.js"></script>','<script src="runner.js"></script><script src="boss.js"></script>');fs.writeFileSync(p,s);
