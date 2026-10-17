@@ -1,8 +1,8 @@
 // One road-space camera for ground, curbs, facades, traffic and the player.
 const facadeSheet=new Image(),pursuerSheet=new Image();let facadesReady=false,pursuersReady=false;
-facadeSheet.onload=()=>facadesReady=true;facadeSheet.src='assets/saigon-facades.png';pursuerSheet.onload=()=>pursuersReady=true;pursuerSheet.src='assets/chase-team.png';
+facadeSheet.onload=()=>facadesReady=true;facadeSheet.src='assets/saigon-facades.webp';pursuerSheet.onload=()=>pursuersReady=true;pursuerSheet.src='assets/chase-team.webp';
 let chaseLastHit=-100,chaseCount=0,chaseBuffer,chaseSource;
-const chaseAudio=new Audio('assets/collision-user.mp3');chaseAudio.preload='auto';
+const chaseAudio=new Audio('assets/collision-user.mp3');chaseAudio.preload='auto';chaseAudio.volume=.7;
 const chaseBytes=fetch('assets/collision-user.mp3').then(r=>r.arrayBuffer()).catch(()=>null);
 const worldStart=start,worldFinish=finish,worldRoadHit=registerRoadHit,worldResize=resize,worldRetry=retryBoss,oldProject=project;
 function stopChase(){if(chaseSource){try{chaseSource.stop()}catch{}chaseSource=null}chaseAudio.pause()}

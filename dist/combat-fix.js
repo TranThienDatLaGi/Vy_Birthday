@@ -1,5 +1,5 @@
 // Deterministic hit timing, visible damage, progressive cheek sprites and a rescue ending.
-const combatSheet=new Image();let combatReady=false;combatSheet.onload=()=>combatReady=true;combatSheet.src='assets/vy-combat-red-cheeks.png';
+const combatSheet=new Image();let combatReady=false;combatSheet.onload=()=>combatReady=true;combatSheet.src='assets/vy-combat-red-cheeks.webp';
 let playerHP=100,cheekLevel=0,combatHits=0,combatResult='fight',combatTimer=1.25,combatInit=false,pendingPunch=null,punchAge=99,combatCooldown=0,playerHurt=0,bossHurt=0,attackLanded=false,rescueTime=0,rescueNote=-1,damageTexts=[],bossAttackAge=99;
 const beforeCombatStart=start,beforeCombatFrame=frame,beforeCombatDraw=draw,beforeCombatMove=move,beforeCombatAct=act,beforeCombatFinish=finish;
 const retryBossButton=document.createElement('button');retryBossButton.className='secondary';retryBossButton.textContent='Tái đấu Răng Khôn ↻';retryBossButton.hidden=true;retryBossButton.style.margin='20px';retryBossButton.onclick=()=>retryBoss();$('finish').append(retryBossButton);

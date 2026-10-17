@@ -1,0 +1,11 @@
+const fs=require('node:fs');
+if(!fs.readFileSync(__dirname+'/dist/index.html','utf8').includes('homecoming.css')){const p=__dirname+'/dist/index.html';fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('<link rel="stylesheet" href="mobile.css">','<link rel="stylesheet" href="mobile.css"><link rel="stylesheet" href="homecoming.css">'))}
+function update(file,from,to){const p=__dirname+'/'+file,s=fs.readFileSync(p,'utf8');if(s.includes(to))return;if(!s.includes(from))throw Error('Missing expected source in '+file);fs.writeFileSync(p,s.replace(from,to))}
+update('dist/index.html','<script src="district-score.js"></script>','<script src="district-score.js"></script><script src="homecoming.js"></script>');
+update('dist/index.html','<p>Hôm nay mình chưa có mặt để đón sinh nhật cùng Vy được, nên gửi trước một chuyến phiêu lưu hơi vòng vèo.</p><p>Có những tối thứ Tư, thứ Sáu Vy phải dành rất nhiều thời gian để chuẩn bị và bảo vệ kế hoạch của mình. Mong hôm nay Vy được tạm gác những điều khiến mình mệt, mặc bộ đồ mình thích và tận hưởng ngày của mình.</p><p>Chúc tuổi mới có những buổi chạy nhẹ chân, những bộ phim đúng gu và nhiều buổi tối thật sự dành cho bản thân. Mong bộ phim nhỏ này cho Vy thêm một lý do để cười hôm nay.</p><p>Hẹn khi mình lên lại, tụi mình chọn một bộ phim rồi đi xem nhé.<br><b>Chúc mừng sinh nhật Vy!</b></p>','<p>Tớ ở quê nên chưa có mặt trong bức hình hôm nay.</p><p>Gửi Vy trước một cuộc phiêu lưu nhỏ, còn buổi đi chơi thì hẹn ngày gặp nhé.</p><p>Chúc Vy tuổi mới có nhiều ngày vui, nhiều bộ phim hay, và những buổi tối thật sự thuộc về mình.</p><p><b>Chúc mừng sinh nhật Vy!</b></p>');
+update('dist/district-score.js','Vy buồn bã nhìn đồng hồ… Đành ở lại họp thêm rồi.','Vy buồn bã nhìn đồng hồ… Nhưng hôm nay, Vy được về nhà.');
+update('dist/district-score.js',"textContent='Lỡ hẹn với đường đua…'","textContent='Chậm một nhịp thôi. Vẫn có người đang chờ.'");
+update('dist/living-world.js','Cẩn thận — lần tới là bị giữ lại tăng ca!','Chậm một nhịp thôi. Sinh nhật vẫn đang chờ!');
+update('dist/living-world.js','CẨN THẬN: SẮP TĂNG CA','CHẬM MỘT NHỊP CŨNG KHÔNG SAO');
+update('verify-world.cjs',"'chay-di.mp3'","'collision-user.mp3'");
+console.log('Installed homecoming ending and final letter.');

@@ -8,7 +8,7 @@ film.innerHTML='<div class="eyebrow">FOUR FRAMES / ONE LEADING LADY</div><h2>Nh�
 ['photo4.jpg','04 / THE GOLDEN NIGHT','Và tối nay, ánh đèn dành cho nhân vật chính.']
 ].map(([src,title,caption])=>`<figure><img src="assets/${src}" alt="Thanh Vy — ${caption}" loading="lazy"><figcaption><small>${title}</small><p>${caption}</p></figcaption></figure>`).join('')+'</div>';
 $('gift').prepend(film);
-const cameo=document.createElement('div');cameo.className='swollen-cameo';cameo.hidden=true;cameo.innerHTML='<img src="assets/dog_swollen.png" alt="Ảnh meme phản ứng sưng má"><span>Mình ổn.<br>Má mình có ý kiến riêng.</span>';$('canvas').parentElement.append(cameo);
+const cameo=document.createElement('div');cameo.className='swollen-cameo';cameo.hidden=true;cameo.innerHTML='<img src="assets/dog_swollen.webp" alt="Ảnh meme phản ứng sưng má"><span>Mình ổn.<br>Má mình có ý kiến riêng.</span>';$('canvas').parentElement.append(cameo);
 let cameoUntil=0,lastBossHits=0;const personalFrame=frame;
 frame=function(t){personalFrame(t);if(bossHits>lastBossHits){cameo.hidden=false;cameoUntil=elapsed+2.2}lastBossHits=bossHits;if(elapsed>cameoUntil||mode!==2||!playing)cameo.hidden=true};
 const originalCharacter=runner;
