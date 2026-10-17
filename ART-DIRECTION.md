@@ -47,3 +47,5 @@ New built-in ImageGen asset: dist/assets/vy-homecoming.png (runtime WebP sibling
 
 WebP runtime assets reduce mobile download weight; PNG originals remain as source art. A shadow overlay on near end walls and a roof cornice reinforce volume without changing the road. Canvas screenshots are in ignored .qa/renders; verify-home.cjs exercises final routes with pause and retry.
 
+Ending split (supersedes the shared-door routing below): escape victory has an exclusive golden ending: finish on time, pursuers stopped by the after-hours sign, approved-night-off pass, spotlight dress transformation, gold birthday stage. Five road hits cause capture and 14 seconds of overtime/meetings before a 23:50 homecoming surprise. The late route keeps athletic clothing and ends with "May mà yêu thương chưa tan ca." Boss rest and manual skip never claim overtime or award the victory scene. Both endings preserve the sender's letter. Uses existing art only; 29s golden ending versus 40s overtime/homecoming, with separate music cue timing and pause-aware game clock. Verified through verify-home.cjs and desktop/phone Canvas renders.
+

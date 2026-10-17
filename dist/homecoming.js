@@ -1,4 +1,4 @@
-// All routes end at the same welcoming door. Timers use game time, including pause.
+// Golden victory and late-night surprise are separate endings, with one shared game clock.
 let homeTime=-1,homeRoute='escape',homeSeen=false,meetingSeen=false,meetingAt=-1;
 const homeSheet=new Image();let homeReady=false;homeSheet.onload=()=>homeReady=true;homeSheet.src='assets/vy-homecoming.webp';
 const homeStart=start,homeRetry=retryBoss,homeFrame=frame,homeDraw=draw,homeFinish=finish,homeScoreIntent=scoreIntent;
@@ -12,7 +12,7 @@ const storyStatus=document.createElement('span');storyStatus.id='storyStatus';st
 function updateGameSound(){gameSound.textContent=sound?'♫ Bật':'♫ Tắt';gameSound.setAttribute('aria-pressed',String(sound));$('sound').setAttribute('aria-pressed',String(sound));$('sound').setAttribute('aria-label',sound?'Tắt âm thanh':'Bật âm thanh')}
 gameSound.onclick=()=>{$('sound').onclick();updateGameSound()};
 const homeSoundClick=$('sound').onclick;$('sound').onclick=()=>{homeSoundClick();updateGameSound()};updateGameSound();
-start=function(){homeTime=-1;homeSeen=false;homeRoute='escape';meetingSeen=false;meetingAt=-1;storySkip.hidden=false;homeStart();resize()};
+start=function(){homeTime=-1;homeSeen=false;homeRoute='escape';meetingSeen=false;meetingAt=-1;storySkip.hidden=false;$('finish').classList?.remove('golden-ending');homeStart();resize()};
 retryBoss=function(){homeTime=-1;homeSeen=false;homeRoute='boss';meetingSeen=true;meetingAt=-1;storySkip.hidden=false;homeRetry()};
 function beginHomecoming(route='escape',schedule=false){
   if(homeTime>=0||homeSeen)return;
@@ -21,22 +21,26 @@ function beginHomecoming(route='escape',schedule=false){
   playing=true;paused=false;objects=[];meetingAt=-1;stopClip();stopChase();stopScore(true);
   if(noiseGain)noiseGain.gain.value=0;
   $('bubble').hidden=true;$('pauseOverlay').hidden=true;$('pause').textContent='Tạm dừng Ⅱ';
-  $('controls').hidden=true;storySkip.hidden=true;$('chapter').textContent='THE FINAL SCENE / CÓ NGƯỜI ĐANG CHỜ';
-  $('chapterTitle').textContent='Về tới nơi rồi, Vy ơi.';
-  $('distance').textContent='ĐÃ TỚI NƠI';$('progress').style.width='100%';
-  $('threat').textContent='Chỉ cần nhận lời chúc thôi.';
+  $('controls').hidden=true;storySkip.hidden=true;
+  $('chapter').textContent=route==='escape'?'GOLDEN ENDING / TỐI NAY LÀ CỦA VY':route==='caught'?'LATE-NIGHT SURPRISE / VẪN CÓ NGƯỜI CHỜ':'THE FINAL SCENE / ĐƯỢC QUYỀN NGHỈ';
+  $('chapterTitle').textContent=route==='escape'?'Về đích đúng giờ. Đến giờ tỏa sáng!':route==='caught'?'Deadline bắt kịp. Vy phải ở lại làm việc.':'Về tới nơi rồi, Vy ơi.';
+  $('distance').textContent=route==='escape'?'HOÀN THÀNH 1.710 M':route==='caught'?'VA CHẠM 5/5 · PHẢI TĂNG CA':'ĐÃ TỚI NƠI';$('progress').style.width='100%';
+  $('threat').textContent=route==='escape'?'Mở khóa đêm sinh nhật rực rỡ':route==='caught'?'Cuộc họp còn chưa kết thúc…':'Chỉ cần nhận lời chúc thôi.';
   resize();draw();syncScore();
   if(schedule){last=0;raf=requestAnimationFrame(frame)}
 }
-storySkip.onclick=()=>{if(playing)beginHomecoming(combatResult==='lost'?'boss':'skip',true)};
+storySkip.onclick=()=>{if(playing)beginHomecoming(roadHits>=5?'caught':combatResult==='lost'?'boss':combatResult==='win'?'escape':'skip',true)};
+function homeDuration(){return homeRoute==='caught'?40:homeRoute==='escape'?29:26}
+function homeSceneTime(){return homeTime-(homeRoute==='caught'?14:0)}
 finish=function(){
   if(!homeSeen){beginHomecoming(combatResult==='lost'?'boss':roadHits>=5?'caught':'escape',true);return}
   homeFinish();retryBossButton.hidden=homeRoute!=='boss';
-  $('finish').querySelector('.eyebrow').textContent='HOME AT LAST / HÔM NAY LÀ NGÀY CỦA VY';
-  $('finish').querySelector('.lead').innerHTML='Hôm nay không cần bảo vệ kế hoạch nữa đâu.<br>Hôm nay chỉ cần nhận lời chúc thôi.';
+  const copy={escape:['GOLDEN ENDING / TỐI NAY LÀ CỦA VY','Về đích đúng giờ. Tối nay là của Vy.<br>Giữ niềm kiêu hãnh. Bỏ lại deadline.'],caught:['LATE-NIGHT SURPRISE / VỀ MUỘN, VẪN CÓ NGƯỜI CHỜ','Hôm nay về muộn một chút.<br>May mà yêu thương chưa tan ca.'],boss:['TEAM RESCUE / SINH NHẬT VẪN DÀNH CHO VY','Không cần thắng mọi trận đấu,<br>Vy vẫn xứng đáng có một sinh nhật thật vui.'],skip:['A LITTLE BIRTHDAY BREAK / CHỈ CẦN NHẬN LỜI CHÚC','Không cần vội. Không cần thêm thử thách.<br>Hôm nay chỉ cần nhận lời chúc thôi.']}[homeRoute];
+  $('finish').querySelector('.eyebrow').textContent=copy[0];$('finish').querySelector('.lead').innerHTML=copy[1];
+  $('finish').classList?.[homeRoute==='escape'?'add':'remove']('golden-ending');
   storySkip.hidden=true;syncScore();
 };
-scoreIntent=function(){if(homeTime>=0)return homeTime>=8.5?'birthday':homeTime<3?'courage':'emotion';return homeScoreIntent()};
+scoreIntent=function(){if(homeTime>=0){if(homeRoute==='escape')return homeTime>=11?'birthday':'courage';return homeSceneTime()>=8.5?'birthday':'emotion'}return homeScoreIntent()};
 frame=function(t){
   if(!playing)return;
   if(homeTime<0&&!homeSeen&&!paused){
@@ -47,8 +51,10 @@ frame=function(t){
   if(homeTime>=0){
     const dt=last?Math.min((t-last)/1000,.04):0;last=t;
     if(!paused){homeTime+=dt;elapsed+=dt}
-    $('controls').hidden=true;draw();syncScore();
-    if(homeTime>=26){homeSeen=true;homeTime=-1;finish();return}
+    $('controls').hidden=true;
+    if(homeRoute==='caught'&&homeTime>=14){$('chapterTitle').textContent='Về muộn, vẫn có người chờ.';$('distance').textContent='23:50 · VỀ TỚI NHÀ';$('threat').textContent='Một bất ngờ đang chờ sau cánh cửa.'}
+    draw();syncScore();
+    if(homeTime>=homeDuration()){homeSeen=true;homeTime=-1;finish();return}
     raf=requestAnimationFrame(frame);return;
   }
   homeFrame(t);
@@ -97,34 +103,88 @@ function drawHomeDoor(w,h,open){
   ctx.fillStyle='#ffe8b2';ctx.beginPath();ctx.ellipse(x+W*.5,y-h*.04,w*.04,h*.012,0,0,7);ctx.fill();
 }
 function drawHomecoming(){
-  const w=canvas.clientWidth,h=canvas.clientHeight,t=homeTime,open=Math.max(0,Math.min(1,(t-7)/1.5)),ground=h*.89,size=Math.min(220,h*.38,w*.43);
+  if(homeRoute==='escape'){drawGoldenEnding();return}
+  if(homeRoute==='caught'&&homeTime<14){drawOvertimeReturn();return}
+  const w=canvas.clientWidth,h=canvas.clientHeight,t=homeSceneTime(),open=Math.max(0,Math.min(1,(t-7)/1.5)),ground=h*.89,size=Math.min(220,h*.38,w*.43);
   ctx.clearRect(0,0,w,h);drawHomeDoor(w,h,open);
   if(t>=8.5){
     const p=Math.min(1,(t-8.5)/2),offset=(1-p)*w*.17;
     ctx.save();ctx.globalAlpha=p;
     lifeSprite(6,w*.67+offset,ground-8,Math.min(195,h*.33,w*.32));lifeSprite(7,w*.86+offset,ground-4,Math.min(200,h*.34,w*.33));lifeSprite(5,w*.49+offset,ground+6,Math.min(205,h*.35,w*.34));ctx.restore();
-    for(let i=0;i<18;i++){const x=(i*53+w*.2)%w,y=h*.3+((i*37+t*18)%(h*.6));ctx.fillStyle=i%2?'#f3d492':'#b6d9cb';ctx.fillRect(x,y,3,5)}
+    for(let i=0;i<7;i++){const x=(i*53+w*.2)%w,y=h*.3+((i*37+t*18)%(h*.6));ctx.fillStyle=i%2?'#f3d492':'#b6d9cb';ctx.fillRect(x,y,3,5)}
     if(t>10&&t<23)for(let i=0;i<4;i++)text(i%2?'♪':'♫',w*(.50+i*.12),h*.48-((t*10+i*16)%40),17,'#ffe5a9');
   }
   const breathe=Math.sin(t*2)*2;
-  if(t>=23)sprite(7,w*.24,ground+breathe,size);
-  else if(homeReady){const cw=homeSheet.width/2,ch=homeSheet.height,width=size*cw/ch;ctx.drawImage(homeSheet,(t>=8.5?1:0)*cw,0,cw,ch,w*.24-width/2,ground-size+breathe,width,size)}
+  if(homeReady){const cw=homeSheet.width/2,ch=homeSheet.height,width=size*cw/ch;ctx.drawImage(homeSheet,(t>=8.5?1:0)*cw,0,cw,ch,w*.24-width/2,ground-size+breathe,width,size)}
   else sprite(2,w*.24,ground+breathe,size);
-  const message=t<3?(homeRoute==='caught'?'Bị bắt kịp một chút. Nhưng hôm nay, Vy được về nhà.':homeRoute==='boss'?'Không cần thắng mọi hiệp đấu. Vy về tới nơi rồi.':'Sau cả hành trình, cuối cùng Vy cũng về tới cửa.'):
-    t<7?'Hôm nay không cần bảo vệ kế hoạch nữa đâu.':t<8.5?'Cửa mở… có người đang chờ Vy.':t<22?'Hôm nay chỉ cần nhận lời chúc thôi.':'Chúc mừng sinh nhật, Thanh Vy!';
-  storyCaption(message,t>=8.5?'♪ CHÚC MỪNG SINH NHẬT ♪':t>=3&&t<7?'TIN NHẮN VỪA ĐẾN':'VỀ TỚI NƠI RỒI');
+  const message=t<3?(homeRoute==='caught'?'23:50. Vy về tới cửa, tưởng sinh nhật đã trôi qua.':homeRoute==='boss'?'Không cần thắng mọi hiệp đấu. Vy được quyền nghỉ.':'Gác thử thách lại. Hôm nay chỉ cần nhận yêu thương.'):
+    t<7?'Hôm nay không cần bảo vệ kế hoạch nữa đâu.':t<8.5?'Cửa mở… có người đang chờ Vy.':t<22?'Hôm nay chỉ cần nhận lời chúc thôi.':homeRoute==='caught'?'Hôm nay về muộn một chút. May mà yêu thương chưa tan ca.':'Không cần thắng mọi trận đấu để được chúc mừng sinh nhật.';
+  storyCaption(message,t>=8.5?'♪ CHÚC MỪNG SINH NHẬT ♪':t>=3&&t<7?'TIN NHẮN VỪA ĐẾN':homeRoute==='caught'?'VỀ MUỘN, VẪN CÓ NGƯỜI CHỜ':'VỀ TỚI NƠI RỒI');
   if(t<.7){ctx.fillStyle=`rgba(12,26,43,${1-t/.7})`;ctx.fillRect(0,0,w,h)}
   if(t>24){ctx.fillStyle=`rgba(248,231,199,${Math.min(1,(t-24)/2)})`;ctx.fillRect(0,0,w,h)}
 }
-// Keep interruptions short; birthday never becomes a punishment for a missed obstacle.
+function drawOvertimeReturn(){
+  const w=canvas.clientWidth,h=canvas.clientHeight,t=homeTime;
+  ctx.clearRect(0,0,w,h);if(officeReady)coverImage(officeScene,w,h);else streetBackdrop(w,h);
+  ctx.fillStyle='#08182b88';ctx.fillRect(0,0,w,h);lifeSprite(4,w*.24,h*.91,Math.min(220,h*.4,w*.43));
+  const clock=t<4?'18:30':t<7?'20:15':t<10?'22:45':'23:45';
+  text(clock,w*.70,h*.31,Math.min(30,w*.07),'#e9c58b');
+  ctx.fillStyle='#183447ee';ctx.fillRect(w*.40,h*.38,w*.54,h*.29);
+  text('KẾ HOẠCH · VÒNG PHẢN BIỆN',w*.67,h*.45,Math.max(9,Math.min(14,w*.024)),'#e6c48b');
+  const lines=storyLines('“Em bổ sung thêm một slide nhé.”',w*.44,Math.max(12,Math.min(16,w*.03)));
+  lines.forEach((line,i)=>text(line,w*.67,h*.52+i*20,Math.max(12,Math.min(16,w*.03)),'#d5e2dc'));
+  storyCaption(t<4?'Sếp, Deadline và Bản kế hoạch bắt kịp. Vy phải quay lại làm việc.':t<9?'“Mình trao đổi nhanh 5 phút nhé.” Một tiếng nữa trôi qua…':'Cuộc họp cuối cùng cũng kết thúc. Vy lặng lẽ ra về.','BỊ BẮT · TĂNG CA ĐẾN KHUYA');
+  if(t>13){ctx.fillStyle=`rgba(12,26,43,${t-13})`;ctx.fillRect(0,0,w,h)}
+}
+function victoryCaption(t){return t<5?'Về đích đúng giờ! Công việc xin dừng ở đây.':t<9?'ĐÃ DUYỆT: NGHỈ TỐI NAY. Vé dự tiệc đã mở khóa!':t<11?'Đến giờ lên đồ. Ánh đèn chờ nhân vật chính.':t<26?'Về đích đúng giờ. Tối nay là của Vy.':'Chúc mừng sinh nhật, Thanh Vy!'}
+function drawGoldenEnding(){
+  const w=canvas.clientWidth,h=canvas.clientHeight,t=homeTime;
+  ctx.clearRect(0,0,w,h);
+  if(t<5){
+    streetBackdrop(w,h);ctx.fillStyle='#13233f66';ctx.fillRect(0,0,w,h);
+    const glow=ctx.createRadialGradient(w*.5,h*.42,2,w*.5,h*.42,h*.65);glow.addColorStop(0,'#ffe2a9bb');glow.addColorStop(1,'#ffe2a900');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='#ffe0a0';ctx.lineWidth=5;ctx.strokeRect(w*.28,h*.27,w*.44,h*.47);
+    const size=Math.min(180,h*.29,w*.33),progress=Math.min(1,t/5);
+    if(pursuersReady){const cw=pursuerSheet.width/3,ch=pursuerSheet.height/2,H=size*.72,W=H*cw/ch;for(let i=0;i<3;i++)ctx.drawImage(pursuerSheet,i*cw,0,cw,ch,w*(.17+i*.33)-W/2,h*.97-H,W,H)}
+    ctx.fillStyle='#173d3fee';ctx.fillRect(w*.10,h*.75,w*.80,h*.10);
+    text('HẾT GIỜ LÀM',w/2,h*.79,Math.max(12,Math.min(18,w*.035)),'#f2d99f');text('Vui lòng quay lại ngày khác.',w/2,h*.83,Math.max(10,Math.min(13,w*.028)),'#d0e8dc');
+    sprite(Math.floor(t*7)%2,w*.5,h*(.74-progress*.1),size*(1-progress*.2));
+  }else if(t<9){
+    ctx.fillStyle='#152b3b';ctx.fillRect(0,0,w,h);const p=Math.min(1,(t-5)/2),x=w*.12,y=h*.33,W=w*.76,H=h*.32;
+    ctx.save();ctx.translate(w/2,h*.49);ctx.rotate((1-p)*-.08);ctx.translate(-w/2,-h*.49);ctx.fillStyle='#f2e6cd';ctx.fillRect(x,y,W,H);ctx.strokeStyle='#b38b50';ctx.lineWidth=2;ctx.strokeRect(x+8,y+8,W-16,H-16);
+    text(p<.55?'KẾ HOẠCH TỐI NAY':'VÉ DỰ TIỆC · THANH VY',w/2,y+H*.24,Math.max(12,Math.min(20,w*.036)),'#30434b');
+    text('ĐÃ DUYỆT',w/2,y+H*.52,Math.max(20,Math.min(36,w*.065)),'#467765');text('NGHỈ TỐI NAY',w/2,y+H*.74,Math.max(14,Math.min(23,w*.04)),'#856039');ctx.restore();
+    for(let i=0;i<18;i++){ctx.fillStyle='#f0d39e';ctx.beginPath();ctx.arc((i*71)%w,h*.7-((t*20+i*31)%(h*.45)),1+i%2,0,7);ctx.fill()}
+  }else{
+    const bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#192b4d');bg.addColorStop(1,'#513d45');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+    const glow=ctx.createRadialGradient(w*.45,h*.62,3,w*.45,h*.62,h*.7);glow.addColorStop(0,'#f5d28a88');glow.addColorStop(1,'#f5d28a00');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+    poly([[0,h*.25],[w*.11,h*.23],[w*.09,h],[0,h]],'#785349');poly([[w,h*.25],[w*.89,h*.23],[w*.91,h],[w,h]],'#785349');
+    ctx.fillStyle='#c8a67c55';ctx.fillRect(0,h*.91,w,h*.09);
+    ctx.strokeStyle='#e0bf86';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(w*.1,h*.23);ctx.quadraticCurveTo(w*.5,h*.34,w*.9,h*.23);ctx.stroke();
+    for(let i=0;i<13;i++){const x=w*(.12+i*.063),y=h*(.24+.06*Math.sin(i/12*Math.PI));ctx.fillStyle='#ffe2a0';ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.fill()}
+    const transform=t<11,p=Math.min(1,(t-9)/2),x=transform?w*.5:w*.26,size=Math.min(265,h*.46,w*.49);
+    if(t<10.1&&homeReady){const cw=homeSheet.width/2,ch=homeSheet.height,W=size*cw/ch;ctx.drawImage(homeSheet,cw,0,cw,ch,x-W/2,h*.91-size,W,size)}else sprite(7,x,h*.91,size);
+    if(t>=11){
+      const enter=Math.min(1,(t-11)/1.3);ctx.save();ctx.globalAlpha=enter;
+      lifeSprite(6,w*.68+(1-enter)*w*.14,h*.90,Math.min(210,h*.35,w*.33));lifeSprite(7,w*.86+(1-enter)*w*.14,h*.90,Math.min(215,h*.36,w*.34));lifeSprite(5,w*.49+(1-enter)*w*.14,h*.92,Math.min(220,h*.37,w*.35));ctx.restore();
+      text('THANH VY · 17.10',w/2,h*.40,Math.max(18,Math.min(34,w*.055)),'#ffe1a1');
+      text('Vai chính của tối nay.',w/2,h*.46,Math.max(13,Math.min(18,w*.035)),'#f6e9d0');
+    }
+    for(let i=0;i<42;i++){ctx.fillStyle=i%3?'#ffe2a2':'#aad7cc';const X=(i*67+w*.07)%w,Y=h*.28+((t*35+i*39)%(h*.70));ctx.fillRect(X,Y,2+i%3,4+i%4)}
+    if(transform){ctx.save();ctx.globalAlpha=Math.max(0,1-Math.abs(p-.55)*3);ctx.fillStyle='#fff1ce';ctx.fillRect(0,0,w,h);ctx.restore()}
+  }
+  storyCaption(victoryCaption(t),t>=11?'♪ GOLDEN ENDING · CHÚC MỪNG SINH NHẬT ♪':'GOLDEN ENDING / VỀ ĐÍCH ĐÚNG GIỜ');
+  if(t>27){ctx.fillStyle=`rgba(248,231,199,${Math.min(1,(t-27)/2)})`;ctx.fillRect(0,0,w,h)}
+}
+// Four misses warn of the actual overtime branch, rather than promising the same outcome.
 const homeRoadHit=registerRoadHit;
-registerRoadHit=function(){const before=roadHits;homeRoadHit();if(roadHits>before)meetingAt=-1;if(roadHits===4&&lateEnding<0)toast('Va chạm 4/5. Chậm một nhịp cũng không sao — vẫn có người chờ Vy.',2.5)};
+registerRoadHit=function(){const before=roadHits;homeRoadHit();if(roadHits>before)meetingAt=-1;if(roadHits===4&&lateEnding<0)toast('Va chạm 4/5. Né thêm nhé — bị bắt lần tới là phải tăng ca!',2.5)};
 const homeVisibility=()=>{if(document.hidden&&playing&&!paused)$('pause').onclick()};
 document.addEventListener?.('visibilitychange',homeVisibility);
 const homePauseClick=$('pause').onclick;
 $('pause').onclick=()=>{homePauseClick();if(homeTime>=0)stopClip()};
 const homeCaught=drawCaught;
-drawCaught=function(){homeCaught();storyCaption('Bị bắt kịp mất rồi… Nhưng hôm nay, Vy được về nhà.','SẾP · DEADLINE · BẢN KẾ HOẠCH')};
+drawCaught=function(){homeCaught();storyCaption('Bị bắt kịp mất rồi. Vy phải quay lại hoàn thành deadline.','SẾP · DEADLINE · BẢN KẾ HOẠCH')};
 // A shadowed end wall and cornice make the street-facing facade read as a volume.
 const homeEndWall=endWallWindows;
 endWallWindows=function(b,x0,x1){

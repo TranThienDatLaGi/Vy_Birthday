@@ -6,7 +6,7 @@ Web sinh nhật tĩnh với nhân vật chibi, đường chạy Sài Gòn, chèo
 
 Chạy một static HTTP server tại `dist/`, ví dụ `python -m http.server 8080 --directory dist`, rồi mở `http://localhost:8080`.
 
-Vuốt trái/phải để đổi làn, vuốt lên hoặc chạm để nhảy; dùng nút màn hình để chèo, né, đỡ và đánh. Có tạm dừng, bật/tắt âm thanh và nút **Xem tiếp câu chuyện**. Mọi nhánh đều dẫn đến sinh nhật, không có tăng ca như hình phạt. Âm thanh chỉ phát sau tương tác; chuyển ứng dụng sẽ tự tạm dừng.
+Vuốt trái/phải để đổi làn, vuốt lên hoặc chạm để nhảy; dùng nút màn hình để chèo, né, đỡ và đánh. Có tạm dừng, bật/tắt âm thanh và nút **Xem tiếp câu chuyện**. Vượt đường chạy và thắng boss mở kết thúc vàng: về đúng giờ, biến hình và dự tiệc. Đủ 5 va chạm thì bị bắt làm deadline, họp đến khuya và về nhà nhận bất ngờ lúc 23:50. Thua boss hoặc chọn xem tiếp dẫn tới phần tiếp sức, không bị gán thành tăng ca. Âm thanh chỉ phát sau tương tác; chuyển ứng dụng sẽ tự tạm dừng.
 
 ## GitHub Pages
 

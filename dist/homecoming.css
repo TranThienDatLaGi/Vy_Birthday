@@ -3,5 +3,6 @@
 .game-actions #storySkip{font-size:11px;color:#c3d6cc;width:100%;border-color:transparent;text-align:right;min-height:36px}
 #bubble{white-space:pre-line}button:focus-visible{outline:3px solid #b9e4d5;outline-offset:3px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.golden-ending .portrait{border:2px solid #ffe0a0;box-shadow:0 0 85px #dfb77c55}.golden-ending .pretitle{color:#ffe0a0}.golden-ending h1 em{color:#ffe2a0}
 @media(max-width:700px){body.is-playing .game-top{display:grid;grid-template-columns:minmax(0,1fr) 130px;align-items:start}body.is-playing .game-top h2{font-size:18px;overflow-wrap:anywhere}body.is-playing .game-actions{gap:4px;width:130px}body.is-playing .game-actions button{padding:6px;font-size:11px;min-width:0;flex:1}body.is-playing .game-actions #storySkip{flex-basis:100%;font-size:10px;min-height:36px;text-align:center;padding:5px 0}body.is-playing canvas{min-height:220px}body.is-playing #bubble{font-size:12px}.letter p{font-size:15px}.film-frames img{max-width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}.primary:hover{transform:none}}
