@@ -1,5 +1,11 @@
 Current edition: CHIBI CARTOON. Generated with built-in ImageGen.
 
+World/mobile repair: dist/assets/saigon-facades.png (four front-on Saigon house textures) and dist/assets/chase-team.png (3x2 running poses for fictional boss, anthropomorphic calendar and blueprint). Built-in ImageGen prompts requested transparent chibi assets, consistent cell layout, no real people or logos. Facades are mapped onto moving roadside planes, at x=±1.5 relative to curb x=±1.0. Lamp roots are on the sidewalks at x=±1.22. Vehicle height shares the player scale and depth; a delivery van is 1.7 times the character height at equal depth.
+
+Collision sound: user-selected https://www.youtube.com/watch?v=_oiaXzJgCb8 → dist/assets/chay-di.mp3. Each counted collision advances the chase team and starts this clip, with no audio overlap. Mute, pause and finish stop it. AudioContext decoding is prepared after user interaction for mobile playback.
+
+Mobile: compact playing layout, at least 54px controls, safe-area bottom padding, dynamic canvas fit to visual viewport and device pixel ratio capped at 2. Verification at widths 360,390,430,1000 via node verify-world.cjs; Canvas frames via node render-world.cjs --mobile/--small. No browser was available for physical Safari/Android audio/gesture validation.
+
 Cheek redness revision: dist/assets/vy-combat-red-cheeks.png, built-in ImageGen edit of the previous combat atlas. Keep all poses and layout; normal column unchanged; injured columns gain progressively larger saturated pink-red/coral cheek patches with swelling, clearly readable at game size. No blood/bruising. Added a brief local cheek-red pulse on each landed enemy hit. Prompt preserves clothing, hair, transparent background and guard/punch poses.
 
 Combat repair: dist/assets/vy-combat-cheeks.png. Built-in ImageGen using vy-chibi.png as the style reference. Prompt: transparent 4x2 chibi atlas, top row four right-facing guard poses with normal/mild/medium/maximum comic cheek puffiness; bottom row corresponding punch poses; same ivory top and dark leggings, no blood or injury detail, consistent scale and margins.
